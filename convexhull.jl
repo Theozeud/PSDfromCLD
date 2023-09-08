@@ -50,13 +50,13 @@ function convexHull(Points::Vector)
               optim_ang = test_ang
               optim_pt = pt
             end
-          end
         end
         end
       beforePt = currentPt
       currentPt = optim_pt
       push!(conv,beforePt)
     end
+    
     push!(conv, ptMin)
     return conv
 end

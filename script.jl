@@ -1,5 +1,7 @@
 include("cld.jl")
 include("plot.jl")
+include("shape.jl")
+
 
 using Test
 

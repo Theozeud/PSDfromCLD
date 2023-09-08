@@ -17,3 +17,7 @@ carre = [(-1,1),(-1,-1),(1,1),(1,-1)]
 
 triangle = [(-1, 0), (1, 0), (0, 1)]
 @test chordlength(triangle, 0) == 2
+
+
+# Performance
+

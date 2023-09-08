@@ -1,6 +1,7 @@
 using LinearAlgebra
 
-include("utils.jl")
+include("convexhull.jl")
+
 
 
 # Intersection
@@ -31,18 +32,13 @@ function chordlength(points,h) # i=y ; j=x
   p_above_min = length(above_h)==1 ? [_min(above_h,2)] : two_min(above_h,2,1)
   p_below_max = length(below_h) ==1 ? [_max(below_h,2)] : two_max(below_h,2,1)
   
-  x_left = intersect2D(p_above_min[1],p_below_max[1],h)
-  x_right = intersect2D(p_above_min[end],p_below_max[end],h)
-
+  x_left = intersect2D(p_above_min[1], p_below_max[1], h)
+  x_right = intersect2D(p_above_min[end], p_below_max[end],h)
   abs(x_right - x_left)
-
 end
 
 
-function computeCL(X::Vector, p::Plan = XY())
-      Φ = 0 # 2π*rand()
-      θ = 0 # π*rand()
-      ϕ = 0 # π/2 * rand()
+function computeCL(X::Vector, p::Plan = XY(); Φ = 2π*rand(), θ = π*rand(),ϕ = π/2 * rand())
       RotX  = apply(x->Rotation(Φ,θ,ϕ,x),X)
       ProjX = apply(x->projectTo(p,x), RotX)
       ConvX = convexHull(ProjX)
