@@ -36,13 +36,13 @@ function chordlength(points,h) # i=y ; j=x
 end
 
 
-function computeCL(X::Vector, p::Plan = XY(); Φ = 2π*rand(), θ = π*rand(),ϕ = π/2 * rand())
-      RotX  = apply(x->Rotation(Φ,θ,ϕ,x),X)
-      ProjX = apply(x->projectTo(p,x), RotX)
-      ConvX = convexHull(ProjX)
-      edgeₘᵢₙ, edgeₘₐₓ =  [e[index(p)] for e in minAndmax(ConvX, index(p))]
-      yₗ = rand()*(edgeₘₐₓ - edgeₘᵢₙ) + edgeₘᵢₙ
-      chordlength(ConvX, yₗ)
+function computeCL(X::Vector, p::Plan = XY(); Φ::Float64 = 2π*rand(), θ::Float64 = π*rand(),ϕ::Float64 = π/2 * rand())
+    RotX  = apply(x->Rotation(Φ,θ,ϕ,x),X)
+    ProjX = apply(x->projectTo(p,x), RotX)
+    ConvX = convexHull(ProjX)
+    edgeₘᵢₙ, edgeₘₐₓ =  [e[index(p)] for e in minAndmax(ConvX, index(p))]
+    yₗ = rand()*(edgeₘₐₓ - edgeₘᵢₙ) + edgeₘᵢₙ
+    chordlength(ConvX, yₗ)
 end
 
 function computeCLD(X::Vector, ntirage::Int = 1, p::Plan = XY(); kwargs...)

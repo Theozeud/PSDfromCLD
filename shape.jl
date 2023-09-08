@@ -6,3 +6,7 @@ pave(a,b,c) = [(a/2,b/2,c/2),   (-a/2,-b/2,-c/2), (a/2,-b/2,-c/2), (-a/2,b/2,-c/
 
 cube(c) = pave(c,c,c)
 
+# tetrahedre
+# pyramide
+
+
