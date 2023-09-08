@@ -2,8 +2,6 @@ using LinearAlgebra
 
 include("convexhull.jl")
 
-
-
 # Intersection
 function intersect2D(p₁, p₂, y)
   @assert length(p₁) == length(p₂) == 2
@@ -47,10 +45,10 @@ function computeCL(X::Vector, p::Plan = XY(); Φ = 2π*rand(), θ = π*rand(),ϕ
       chordlength(ConvX, yₗ)
 end
 
-function computeCLD(X::Vector, ntirage::Int = 1, p::Plan = XY())
+function computeCLD(X::Vector, ntirage::Int = 1, p::Plan = XY(); kwargs...)
   CLD = zeros(ntirage)
   for i in 1:ntirage
-    CLD[i] = computeCL(X,p)
+    CLD[i] = computeCL(X,p;kwargs...)
   end
   CLD
 end

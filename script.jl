@@ -3,10 +3,9 @@ include("plot.jl")
 include("shape.jl")
 
 
-using Test
 
-cube = cube(4)
+shape = cube(4)
 
-cld = computeCLD(cube)
+@time cld = computeCLD(shape, 100000; Φ = 0, ϕ = 0)
 
 plotCLD(cld)

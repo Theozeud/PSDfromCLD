@@ -16,7 +16,9 @@ function _angle(pt0,pt1,pt2) #Angle après initialisation
     AB = euclidean(pt0,pt1)
     BC = euclidean(pt1,pt2)
     AC = euclidean(pt0,pt2)
-    acos((AB^2 + BC^2 - AC^2)/(2*AB*BC)) #Formule d'Al Kashi
+    L = (AB^2 + BC^2 - AC^2)/(2*AB*BC)
+    L = norm(L)>1 ? L/norm(L) : L
+    acos(L) #Formule d'Al Kashi
 end
   
 # Method to compute the convex hull of a set of points using the algorithm of Javis' march.
@@ -56,7 +58,7 @@ function convexHull(Points::Vector)
       currentPt = optim_pt
       push!(conv,beforePt)
     end
-    
+
     push!(conv, ptMin)
     return conv
 end

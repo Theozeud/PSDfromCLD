@@ -18,7 +18,7 @@ Rz(ϕ) = [cos(ϕ) sin(ϕ) 0;
          -sin(ϕ) cos(ϕ) 0;
            0     0     1]
 
-Rotation(Φ,θ,ϕ,X) = Tuple(x(Φ)*Ry(θ)*Rz(ϕ)*[X...])
+Rotation(Φ,θ,ϕ,X) = Tuple(Rx(Φ)*Ry(θ)*Rz(ϕ)*[X...])
 
 # Projection in the plan
 
