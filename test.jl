@@ -2,8 +2,9 @@ include("cld.jl")
 using Test
 
 # Test for creating shapes
-shape = cube(4)
+shape = Cube(4)
 
+@test typeof(shape) <: ConvexPolyhedron
 @test length(shape) == 8
 
 rot_shape = apply(p -> Rotation(π, π / 3, π / 4, p), shape)
