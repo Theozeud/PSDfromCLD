@@ -5,12 +5,12 @@ include("shape.jl")
 include("utils.jl")
 
 
-# ConvexHull
-
-function angle_init(pt0, pt1) #Angle initialisation
-    (x, y) = pt0
-    (a, b) = pt1
-    atan(abs(a - x) / abs(b - y))
+# Utils for ConvexHull
+  
+function angle_init(pt0,pt1) #Angle initialisation
+    (x,y) = pt0
+    (a,b) = pt1
+    atan(abs(a-x)/abs(b-y))
 end
 
 function _angle(pt0, pt1, pt2) #Angle après initialisation
@@ -23,6 +23,7 @@ function _angle(pt0, pt1, pt2) #Angle après initialisation
     L = norm(L) > 1 ? L / norm(L) : L
     acos(L)
 end
+
 
 
 # Method to compute the convex hull of a set of points using the algorithm of Javis' march.
