@@ -1,10 +1,8 @@
-include("projection.jl")
+include("plan.jl")
 
 abstract type AbstractShape end
 
 abstract type Shape3D <: AbstractShape end
-abstract type Shape2D <: AbstractShape end
-abstract type AbstractPointsIn2D <: Shape2D end
 
 struct ConvexPolyhedron <: Shape3D
     vertices::Vector{<:Tuple{<:Real,<:Real,<:Real}}
@@ -13,12 +11,18 @@ end
 @inline vertices(p::ConvexPolyhedron) = p.vertices
 Base.length(p::ConvexPolyhedron) = length(vertices(p))
 
+abstract type Shape2D <: AbstractShape end
+abstract type AbstractPointsIn2D <: Shape2D end
+
+@inline plan(p::AbstractPointsIn2D) = p.plan
+@inline vertices(p::AbstractPointsIn2D) = p.vertices
+Base.length(p::AbstractPointsIn2D) = length(vertices(p))
+
 # Polygon
 struct ConvexPolygon <: AbstractPointsIn2D
     plan::Plan
     vertices::Vector{<:Tuple{<:Real,<:Real}}
 end
-
 
 #Set of points in 2D (not necessary a plogygon)
 struct PointsIn2D <: AbstractPointsIn2D
@@ -26,9 +30,7 @@ struct PointsIn2D <: AbstractPointsIn2D
     vertices::Vector{<:Tuple{<:Real,<:Real}}
 end
 
-@inline plan(p::AbstractPointsIn2D) = p.plan
-@inline vertices(p::AbstractPointsIn2D) = p.vertices
-Base.length(p::AbstractPointsIn2D) = length(vertices(p))
+
 
 
 #### Function to create shape in 3D
