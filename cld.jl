@@ -37,16 +37,17 @@ function chordlength(points,h) # i=y ; j=x
 end
 
 
-function computeCL(X::Vector, p::Plan = XY(); Φ::Float64 = 2π*rand(), θ::Float64 = π*rand(),ϕ::Float64 = π/2 * rand())
-    RotX  = apply(x->Rotation(Φ,θ,ϕ,x),X)
-    ProjX = apply(x->projectTo(p,x), RotX)
-    ConvX = convexHull(ProjX)
-    edgeₘᵢₙ, edgeₘₐₓ =  [e[index(p)] for e in minAndmax(ConvX, index(p))]
+function computeCL(cp::ConvexPolyhedron, p::Plan = XY(); Φ::Float64 = 2π*rand(), θ::Float64 = π*rand(),ϕ::Float64 = π/2 * rand())
+    V = vertices(cp)
+    RotV  = apply(x->Rotation(Φ,θ,ϕ,x),V)
+    ProjV = apply(x->projectTo(p,x), RotV)
+    ConvV = convexHull(ProjV)
+    edgeₘᵢₙ, edgeₘₐₓ =  [e[index(p)] for e in minAndmax(ConvV, index(p))]
     yₗ = rand()*(edgeₘₐₓ - edgeₘᵢₙ) + edgeₘᵢₙ
-    chordlength(ConvX, yₗ)
+    chordlength(ConvV, yₗ)
 end
 
-function computeCLD(X::Vector, ntirage::Int = 1, p::Plan = XY(); kwargs...)
+function computeCLD(X::Shape3D, ntirage::Int = 1, p::Plan = XY(); kwargs...)
   CLD = zeros(ntirage)
   for i in 1:ntirage
     CLD[i] = computeCL(X,p;kwargs...)
