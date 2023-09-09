@@ -1,16 +1,16 @@
 abstract type Shape end
 
-abstract type 3DShape <: Shape end
-abstract type 2DShape <: Shape end
+abstract type Shape3D <: Shape end
+abstract type Shape2D <: Shape end
 
-struct Polyhedron <: 3DShape
+struct Polyhedron <: Shape3D
     vertices::Vector{<:Tuple{<:Real,<:Real,<:Real}}
 end
 
 @inline vertices(p::Polyhedron) = p.vertex
 
 # Polygon
-struct Polygon <: 2DShape
+struct Polygon <: Shape3D
     plan::Plan
     vertices::Vector{<:Tuple{<:Real,<:Real}}
 end 
@@ -19,7 +19,7 @@ end
 @inline vertices(p::Polygon) = p.vertex
 
 #Set of points in 2D (not necessary a plogygon)
-struct PointsIn2D <: 2DShape
+struct PointsIn2D <: Shape2D
     plan::Plan
     vertices::Vector{<:Tuple{<:Real,<:Real}}
 end
