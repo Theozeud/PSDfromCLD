@@ -1,3 +1,4 @@
+include("cld.jl")
 using Test
 
 # Test for creating shapes
@@ -12,11 +13,12 @@ using Test
 
 
 
-carre = [(-1,1),(-1,-1),(1,1),(1,-1)]
-@test chordlength(carre,0) == 2
+carre = [(-1, 1), (-1, -1), (1, 1), (1, -1)]
+@test chordlength(carre, 0) == 2
 
 triangle = [(-1, 0), (1, 0), (0, 1)]
 @test chordlength(triangle, 0) == 2
+@test chordlength(triangle, 1 / 2) == 1
 
 
 # Performance

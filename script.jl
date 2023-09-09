@@ -6,6 +6,6 @@ include("shape.jl")
 
 shape = cube(4)
 
-@time cld = computeCLD(shape, 100000; Φ = 0, ϕ = 0)
+@time calcvul = computeCLD(shape, 100000; Φ=0, ϕ=0)
 
-plotCLD(cld)
+plotCLD(calcvul)
