@@ -30,6 +30,7 @@ shape = regular_icosahedron(2)
 #npoints = length(rot_shape[1]) == 2 ? rot_shape : apply(p -> projectTo(pl, p), rot_shape)
 
 
+
 #@time cld = computeCLD(shape, 1000; Φ=0, ϕ=0)
 
 cld = computeCLD(shape, 10000)
