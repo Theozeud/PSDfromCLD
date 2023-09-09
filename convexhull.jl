@@ -5,7 +5,7 @@ include("shape.jl")
 include("utils.jl")
 
 
-# ConvexHull
+# Utils for ConvexHull
   
 function angle_init(pt0,pt1) #Angle initialisation
     (x,y) = pt0
