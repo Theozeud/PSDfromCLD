@@ -56,9 +56,9 @@ function regular_icosahedron(c) #12 vertices with triangles as faces
     # c is sidelength
     d = c / 2 #rescaling
     g = ((1 + √5) / 2) * (c / 2) # using golden ratio
-    return [(0, d, g), (0, -d, g), (0, -d, -g), (0, d, -g),
+    ConvexPolyhedron([(0, d, g), (0, -d, g), (0, -d, -g), (0, d, -g),
         (d, g, 0), (d, -g, 0), (-d, -g, 0), (-d, g, 0),
-        (g, 0, d), (g, 0, -d), (-g, 0, -d), (-g, 0, d)]
+        (g, 0, d), (g, 0, -d), (-g, 0, -d), (-g, 0, d)])
 end
 
 
