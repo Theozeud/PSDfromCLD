@@ -13,6 +13,8 @@ function tetraedron(c) #c is sidelength
     #so that the distance is indeed c
 end
 
-# pyramide
+function pyramide(c, h) #c base sidelength and h is height
+    return [(c / 2, c / 2, 0), (-c / 2, c / 2, 0), (-c / 2, -c / 2, 0), (c / 2, -c / 2, 0), (0, 0, h)]
+end
 
 
