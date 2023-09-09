@@ -2,6 +2,13 @@ include("cld.jl")
 using Test
 
 # Test for creating shapes
+shape = cube(4)
+
+@test length(shape) == 8
+
+rot_shape = apply(p->Rotation(π,π/3,π/4, p),shape)
+plot2D(rot_shape)
+
 
 # Test for Rotation
 

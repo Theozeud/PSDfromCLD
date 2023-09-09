@@ -37,7 +37,7 @@ function chordlength(points, h)
 end
 
 
-function computeCL(X::Vector, p::Plan=XY(); Φ=2π * rand(), θ=π * rand(), ϕ=π / 2 * rand())
+function computeCL(X::Vector, p::Plan=XY(); Φ::Float64=2π * rand(), θ::Float64=π * rand(), ϕ::Float64=π / 2 * rand())
   RotX = apply(x -> Rotation(Φ, θ, ϕ, x), X)
   ProjX = apply(x -> projectTo(p, x), RotX)
   ConvX = convexHull(ProjX)

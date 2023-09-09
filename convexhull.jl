@@ -43,20 +43,20 @@ function convexHull(Points::Vector)
     currentPt = pt_ang_min # current point in convex hull
   
     while currentPt != ptMin
-    optim_ang = -Inf #optimum angle with the three current points
-      optim_pt = (0,0)
-      for pt in Points
-        if pt ∉ conv && pt != currentPt
-            test_ang = _angle(beforePt, currentPt, pt)  #angle to test
-            if test_ang > optim_ang
-              optim_ang = test_ang
-              optim_pt = pt
+        optim_ang = -Inf #optimum angle with the three current points
+        optim_pt = (0,0)
+        for pt in Points
+            if pt ∉ conv && pt != currentPt
+                test_ang = _angle(beforePt, currentPt, pt)  #angle to test
+                if test_ang > optim_ang
+                    optim_ang = test_ang
+                    optim_pt = pt
+                end
             end
         end
-        end
-      beforePt = currentPt
-      currentPt = optim_pt
-      push!(conv,beforePt)
+        beforePt = currentPt
+        currentPt = optim_pt
+        push!(conv,beforePt)
     end
 
     push!(conv, ptMin)
