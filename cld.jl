@@ -1,6 +1,7 @@
 using LinearAlgebra
 
 include("convexhull.jl")
+include("projection.jl")
 
 # Intersection
 function intersect2D(p₁, p₂, y)
