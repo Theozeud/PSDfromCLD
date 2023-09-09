@@ -52,5 +52,15 @@ function Pyramide(c, h)
     ConvexPolyhedron([(c / 2, c / 2, 0), (-c / 2, c / 2, 0), (-c / 2, -c / 2, 0), (c / 2, -c / 2, 0), (0, 0, h)])
 end
 
+function regular_icosahedron(c) #12 vertices with triangles as faces
+    # c is sidelength
+    d = c / 2 #rescaling
+    g = ((1 + √5) / 2) * (c / 2) # using golden ratio
+    ConvexPolyhedron([(0, d, g), (0, -d, g), (0, -d, -g), (0, d, -g),
+        (d, g, 0), (d, -g, 0), (-d, -g, 0), (-d, g, 0),
+        (g, 0, d), (g, 0, -d), (-g, 0, -d), (-g, 0, d)])
+end
+
+
 # Projection for a ConvexPolyhedron
 projectTo(p::Plan, cp::ConvexPolyhedron) = PointsIn2D(p, projectTo(p, vertices(cp)))
