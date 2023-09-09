@@ -1,6 +1,6 @@
 using Plots
 
-include("shape.jl")
+include("../scr/shape.jl")
 
 
 function icosahedron_edgelength(r)
