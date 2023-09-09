@@ -1,27 +1,36 @@
 abstract type Shape end
-abstract type 3DShape end <: Shape
-abstract type 2DShape end <: Shape
+
+abstract type 3DShape <: Shape end
+abstract type 2DShape <: Shape end
 
 struct Polyhedron <: 3DShape
-    vertex::Vector{<:Tuple{<:Real,<:Real,<:Real}}
+    vertices::Vector{<:Tuple{<:Real,<:Real,<:Real}}
 end
+
+@inline vertices(p::Polyhedron) = p.vertex
 
 # Polygon
 struct Polygon <: 2DShape
     plan::Plan
-    vextex::Vector{<:Tuple{<:Real,<:Real}}
+    vertices::Vector{<:Tuple{<:Real,<:Real}}
 end 
+
+@inline plan(p::Polygon) = p.plan
+@inline vertices(p::Polygon) = p.vertex
 
 #Set of points in 2D (not necessary a plogygon)
 struct PointsIn2D <: 2DShape
     plan::Plan
-    vextex::Vector{<:Tuple{<:Real,<:Real}}
+    vertices::Vector{<:Tuple{<:Real,<:Real}}
 end
+
+@inline plan(p::PointsIn2D) = p.plan
+@inline vertices(p::PointsIn2D) = p.vertex
 
 
 #### Function to create shape in 3D
 
-RectanguarCuboid(a,b,c) = Cuboid([(a/2,b/2,c/2),   (-a/2,-b/2,-c/2), (a/2,-b/2,-c/2), (-a/2,b/2,-c/2),
+RectanguarCuboid(a,b,c) = Polyhedron([(a/2,b/2,c/2),   (-a/2,-b/2,-c/2), (a/2,-b/2,-c/2), (-a/2,b/2,-c/2),
                       (-a/2,-b/2,c/2), (a/2,b/2,-c/2),   (-a/2,b/2,c/2),  (a/2,-b/2,c/2)])
 
 Cube(c) = RectanguarCuboid(c,c,c)
