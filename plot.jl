@@ -32,11 +32,15 @@ end
 
 plotConvexHull(p::PointsIn2D) = plotConvexHull(vertices(p))
 
-function plot_chord(points::Vector)
+function random_height(points::Vector)
     p = XY()
     ConvV = convexHull(points)
     edgeₘᵢₙ, edgeₘₐₓ = [e[index(p)] for e in minAndmax(ConvV, index(p))]
     yₗ = rand() * (edgeₘₐₓ - edgeₘᵢₙ) + edgeₘᵢₙ
+end
+
+function plot_chord(points::Vector, yₗ=random_height(points)::Real)
+    ConvV = convexHull(points)
     cl, x_left, x_right = test_chordlength(ConvV, yₗ)
     @show cl
     scatter(ConvV, aspect_ratio=:equal, label="points", mc=:blue)
@@ -48,4 +52,4 @@ function plot_chord(points::Vector)
 
 end
 
-plot_chord(p::PointsIn2D) = plot_chord(vertices(p))
+plot_chord(p::PointsIn2D, h::Real) = plot_chord(vertices(p), h::Real)
