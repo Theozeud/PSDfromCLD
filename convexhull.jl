@@ -25,6 +25,7 @@ function _angle(pt0, pt1, pt2) #Angle après initialisation
 end
 
 
+
 # Method to compute the convex hull of a set of points using the algorithm of Javis' march.
 convexHull(p::ConvexPolygon) = p
 convexHull(v::PointsIn2D) = Polygon(plan(v), convexHull(vertices(v)))
