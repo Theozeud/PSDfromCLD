@@ -21,8 +21,8 @@ end
 function plotConvexHull(points::Vector, convexHullPoints::Vector=convexHull(points))
     @show points
     @show convexHullPoints
-    #scatter(points, aspect_ratio=:equal, label="all", mc=:blue)
-    scatter(convexHullPoints, aspect_ratio=:equal, label="convex hull", mc=:red)
+    scatter(points, aspect_ratio=:equal, label="all", mc=:blue)
+    scatter!(convexHullPoints, aspect_ratio=:equal, label="convex hull", mc=:red)
     xlabel!(L"x")
     ylabel!(L"y")
     title!("Convex hull of the projection")
