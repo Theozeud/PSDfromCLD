@@ -17,14 +17,5 @@ function test_chordlength(points, h)
 
 end
 
-function test_computeCL(cp::ConvexPolyhedron, p::Plan=XY(); Φ::Real=2π * rand(), θ::Real=π * rand(), ϕ::Real=π / 2 * rand())
-    V = vertices(cp)
-    RotV = apply(x -> Rotation(Φ, θ, ϕ, x), V)
-    ProjV = apply(x -> projectTo(p, x), RotV)
-    ConvV = convexHull(ProjV)
-    edgeₘᵢₙ, edgeₘₐₓ = [e[index(p)] for e in minAndmax(ConvV, index(p))]
-    yₗ = rand() * (edgeₘₐₓ - edgeₘᵢₙ) + edgeₘᵢₙ
-    test_chordlength(ConvV, yₗ)
-end
 
 
