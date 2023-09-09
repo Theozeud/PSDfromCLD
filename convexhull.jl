@@ -1,8 +1,9 @@
 using Distances
 using LinearAlgebra
 
-
+include("shape.jl")
 include("utils.jl")
+
 
 # ConvexHull
   
@@ -16,17 +17,23 @@ function _angle(pt0,pt1,pt2) #Angle après initialisation
     AB = euclidean(pt0,pt1)
     BC = euclidean(pt1,pt2)
     AC = euclidean(pt0,pt2)
+    #Formule d'Al Kashi
     L = (AB^2 + BC^2 - AC^2)/(2*AB*BC)
+    # Correction in case of micro error
     L = norm(L)>1 ? L/norm(L) : L
-    acos(L) #Formule d'Al Kashi
+    acos(L) 
 end
+
   
 # Method to compute the convex hull of a set of points using the algorithm of Javis' march.
+convexHull(p::Polygon) = p
+convexHull(v::PointsIn2D) = Polygon(plan(v),convexHull(vertices(v)))
+
 function convexHull(Points::Vector)
     ptMin = _min(Points, 1)
-    conv = [] #points we have already met
+    conv  = eltype(Points)[] # points we have already met
     
-    pt_ang_min = (0,0)#points with optimal angle with ptMin
+    pt_ang_min = (0,0) # points with optimal angle with ptMin
     ang_init_min = Inf
   
     for pt in Points #second point for initialisation
@@ -60,5 +67,5 @@ function convexHull(Points::Vector)
     end
 
     push!(conv, ptMin)
-    return conv
+    conv
 end
