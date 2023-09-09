@@ -1,0 +1,46 @@
+using Plots
+
+include("shape.jl")
+
+
+function icosahedron_edgelength(r)
+    # r is the radius of the circumscribed circle
+    g = (1 + √5) / 2 #golden ratio
+    return (2 * r / √(g * √5)) # see wikipedia, regular icosahedron
+end
+
+function cube_edgelength(r)
+    return ((2 / √3) * r)
+end
+
+function tetraedron_edgelength(r)
+    return (√(8 / 3)) * r
+end
+
+
+function compare_cld_sphere_polyhedron(r::Float64, polyhedron)
+    length = 100
+    l = range(0, 4, length=length)
+    y = []
+    for i ∈ range(1, length)
+        li = l[i]
+        yi = li / (2 * r * √((2 * r)^2 .- li .^ 2))
+        push!(y, yi)
+    end #analytical solution
+    if polyhedron == "tetrahedron"
+        shape = tetraedron(tetraedron_edgelength(r))
+    end
+    if polyhedron == "cube"
+        shape = cube(cube_edgelength(r))
+    end
+    if polyhedron == "icosahedron"
+        shape = regular_icosahedron(icosahedron_edgelength(r))
+    end
+    cld_polyh = computeCLD(shape, 40000)
+    histogram(cld_polyh, bins=range(0, 4, 100), normalize=:pdf, label="CLD of a regular $polyhedron (with circumscribed circle radius 2.0)")
+    plot!(l, y, label="CLD in case of a sphere of radius 2.0")
+end
+
+#choose between "tetrahedron", "cube" or "icosahedron"
+
+#compare_cld_sphere_polyhedron(2.0, "tetrahedron")
