@@ -27,7 +27,7 @@ end
   
 # Method to compute the convex hull of a set of points using the algorithm of Javis' march.
 convexHull(p::Polygon) = p
-convexHull(v::PointsIn2D) = convexHull(vertices(v))
+convexHull(v::PointsIn2D) = Polygon(plan(v),convexHull(vertices(v)))
 
 function convexHull(Points::Vector)
     ptMin = _min(Points, 1)
