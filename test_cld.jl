@@ -5,8 +5,11 @@ function test_chordlength(points, h)
     above_h = [p for p in points if p[2] > h]
     below_h = [p for p in points if p[2] <= h]
 
-    p_above_min = length(above_h) == 1 ? [_min(above_h, 2)] : two_min(above_h, 2, 1)
-    p_below_max = length(below_h) == 1 ? [_max(below_h, 2)] : two_max(below_h, 2, 1)
+    #p_above_min = length(above_h) == 1 ? [_min(above_h, 2)] : two_min(above_h, 2, 1)
+    #p_below_max = length(below_h) == 1 ? [_max(below_h, 2)] : two_max(below_h, 2, 1)
+
+    @show p_above_min = length(above_h) == 1 ? [_min(above_h, 2)] : two_points_above(above_h, _max(below_h, 2), 2, 1)
+    @show p_below_max = length(below_h) == 1 ? [_max(below_h, 2)] : two_points_below(below_h, _min(above_h, 2), 2, 1)
 
     @show h
     @show x_left = intersect2D(p_above_min[1], p_below_max[1], h)

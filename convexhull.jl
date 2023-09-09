@@ -6,11 +6,11 @@ include("utils.jl")
 
 
 # Utils for ConvexHull
-  
-function angle_init(pt0,pt1) #Angle initialisation
-    (x,y) = pt0
-    (a,b) = pt1
-    atan(abs(a-x)/abs(b-y))
+
+function angle_init(pt0, pt1) #Angle initialisation
+    (x, y) = pt0
+    (a, b) = pt1
+    atan(abs(a - x) / abs(b - y))
 end
 
 function _angle(pt0, pt1, pt2) #Angle après initialisation
@@ -28,7 +28,7 @@ end
 
 # Method to compute the convex hull of a set of points using the algorithm of Javis' march.
 convexHull(p::ConvexPolygon) = p
-convexHull(v::PointsIn2D) = Polygon(plan(v), convexHull(vertices(v)))
+convexHull(v::PointsIn2D) = ConvexPolygon(plan(v), convexHull(vertices(v)))
 
 function convexHull(Points::Vector)
     ptMin = _min(Points, 1)
