@@ -18,6 +18,8 @@ function plot2D(points::Vector, pl::Plan=XY())
     ylabel!(L"y")
 end
 
+plot2D(p::PointsIn2D) = plot2D(vertices(p), plan(p))
+
 function plotConvexHull(points::Vector, convexHullPoints::Vector=convexHull(points))
     @show points
     @show convexHullPoints
@@ -28,3 +30,5 @@ function plotConvexHull(points::Vector, convexHullPoints::Vector=convexHull(poin
     title!("Convex hull of the projection")
 
 end
+
+plotConvexHull(p::PointsIn2D) = plotConvexHull(vertices(p))
