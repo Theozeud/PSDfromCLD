@@ -8,7 +8,9 @@ include("plot.jl")
 shape = Cube(4)
 rot_shape = Rotation(shape, π, π / 3, π / 4)
 projected_shape = projectTo(XY(), rot_shape)
-plotConvexHull(projected_shape)
+
+#plotConvexHull(projected_shape)
+plot_chord(projected_shape)
 
 #rot_shape = apply(p->Rotation(π,π/3,π/4, p),vertices(shape))
 
