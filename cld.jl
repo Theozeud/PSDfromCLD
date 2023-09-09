@@ -37,7 +37,7 @@ function chordlength(points,h) # i=y ; j=x
 end
 
 
-function computeCL(cp::ConvexPolyhedron, p::Plan = XY(); Φ::Float64 = 2π*rand(), θ::Float64 = π*rand(),ϕ::Float64 = π/2 * rand())
+function computeCL(cp::ConvexPolyhedron, p::Plan = XY(); Φ::Real = 2π*rand(), θ::Real = π*rand(),ϕ::Real = π/2 * rand())
     V = vertices(cp)
     RotV  = apply(x->Rotation(Φ,θ,ϕ,x),V)
     ProjV = apply(x->projectTo(p,x), RotV)
