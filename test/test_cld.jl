@@ -1,5 +1,5 @@
 using Test
-include("cld.jl")
+include("../scr/cld.jl")
 
 function test_chordlength(points, h)
     above_h = [p for p in points if p[2] > h]
