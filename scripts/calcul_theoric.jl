@@ -33,14 +33,15 @@ PRx₇ = ProjXY(Rotz * Roty * Rotx * x₇)
 PRx₈ = ProjXY(Rotz * Roty * Rotx * x₈)
 
 # On suppose 0≤ Φ,θ,ϕ < π/4
-# Dans ce cas, Conv(Φ, θ) = {x₁,x₂,x₃,x₅,x₇,x₈}
+# Dans ce cas, Conv(Φ, θ) = {x₁,x₃,x₄,x₅,x₆,x₇}
 # Dans cette configuration, on a en terme de coordonnées sur l'axe y : 
-#                        x₂≥x₃≥x₇≥x₁≥x₅≥x₈.
+#                        x₇≥x₃≥x₆≥x₄≥x₅≥x₁.
+
 
 # Les hauteurs ymax et ymin sont:
-ymax = PRx₂[2]
-ymin = PRx₈[2]
-Ptot = ymax - ymin
+ymax = PRx₇[2]
+ymin = PRx₁[2]
+Ptot = expand(ymax - ymin)
 
 # Fonction utile qui renvoie l'abscisse d'un point dont on connait l'ordonnée sur la droite formée par les points p₁ et p₂
 intersect2D(p₁, p₂, y) = (y - p₁[2]) * (p₂[1] - p₁[1]) / (p₂[2] - p₁[2]) + p₁[1]
@@ -53,33 +54,33 @@ end
 
 @variables y,l
 
-# Calcul de la longueur de corde entre x₂ et x₃ et de la probabilité d'être dans cette intervalle 
+# Calcul de la longueur de corde entre x₇ et x₃ et de la probabilité d'être dans cette intervalle 
 # Elle est constante sur cette intervalle.
-l₃₂ = expand(intersect2D(PRx₂,PRx₃,y) - intersect2D(PRx₃,PRx₇,y))
-y₃₂ = yₗ(PRx₂,PRx₃,PRx₇,PRx₃,l)
-P₃₂ = (PRx₃[2]-y)/(Ptot)
+l₇₃ = expand(intersect2D(PRx₇,PRx₃,y) - intersect2D(PRx₆,PRx₇,y))
+y₇₃ = yₗ(PRx₃,PRx₇,PRx₆,PRx₇,l)
+P₇₃ = expand((PRx₇[2]-y)/(Ptot))
 
-# Calcul de la longueur de corde entre x₂ et x₇ et de la probabilité d'être dans cette intervalle 
-l₂₇ = expand(intersect2D(PRx₇,PRx₃,y)-intersect2D(PRx₂,PRx₁,y))
-y₂₇ = yₗ(PRx₇,PRx₃,PRx₂,PRx₁,l)
-P₂₇ = (PRx₂[2]-y)/(Ptot)
+# Calcul de la longueur de corde entre x₃ et x₆ et de la probabilité d'être dans cette intervalle 
+l₃₆ = expand(intersect2D(PRx₃,PRx₄,y)-intersect2D(PRx₇,PRx₆,y))
+y₃₆ = yₗ(PRx₃,PRx₄,PRx₇,PRx₆,l)
+P₃₆ = expand((PRx₃[2]-y)/(Ptot))
 
-# Calcul de la longueur de corde entre x₇ et x₁ et de la probabilité d'être dans cette intervalle 
-l₇₁ = expand(intersect2D(PRx₅,PRx₇,y) - intersect2D(PRx₂,PRx₁,y))
-y₇₁ = yₗ(PRx₅,PRx₇,PRx₂,PRx₁,l)
-P₇₁ = (PRx₇[2]-y)/(Ptot)
+# Calcul de la longueur de corde entre x₆ et x₄ et de la probabilité d'être dans cette intervalle 
+l₆₄ = expand(intersect2D(PRx₃,PRx₄,y) - intersect2D(PRx₆,PRx₅,y))
+y₆₄ = yₗ(PRx₃,PRx₄,PRx₆,PRx₅,l)
+P₆₄ = expand((PRx₆[2]-y)/(Ptot))
 
 
 # Calcul de la probabilité
-fun_l₃₂ = eval(build_function(l₃₂,y,c,Φ,θ,ϕ))
-fun_l₂₇ = eval(build_function(l₂₇,y,c,Φ,θ,ϕ))
-fun_l₇₁ = eval(build_function(l₇₁,y,c,Φ,θ,ϕ))
-fun_P₃₂ = eval(build_function(P₃₂,y,c,Φ,θ,ϕ))
-fun_P₂₇ = eval(build_function(P₂₇,y,c,Φ,θ,ϕ))
-fun_P₇₁ = eval(build_function(P₇₁,y,c,Φ,θ,ϕ))
-fun_y₃₂ = eval(build_function(y₃₂,l,c,Φ,θ,ϕ))
-fun_y₂₇ = eval(build_function(y₂₇,l,c,Φ,θ,ϕ))
-fun_y₇₁ = eval(build_function(y₇₁,l,c,Φ,θ,ϕ))
+fun_l₇₃ = eval(build_function(l₇₃,y,c,Φ,θ,ϕ))
+fun_l₃₆ = eval(build_function(l₃₆,y,c,Φ,θ,ϕ))
+fun_l₆₄ = eval(build_function(l₆₄,y,c,Φ,θ,ϕ))
+fun_P₇₃ = eval(build_function(P₇₃,y,c,Φ,θ,ϕ))
+fun_P₃₆ = eval(build_function(P₃₆,y,c,Φ,θ,ϕ))
+fun_P₆₄ = eval(build_function(P₆₄,y,c,Φ,θ,ϕ))
+fun_y₇₃ = eval(build_function(y₇₃,l,c,Φ,θ,ϕ))
+fun_y₃₆ = eval(build_function(y₃₆,l,c,Φ,θ,ϕ))
+fun_y₆₄ = eval(build_function(y₆₄,l,c,Φ,θ,ϕ))
 
 fun_x₁ = eval(build_function(PRx₁,c,Φ,θ,ϕ)[1])
 fun_x₂ = eval(build_function(PRx₂,c,Φ,θ,ϕ)[1])
@@ -91,23 +92,24 @@ fun_x₇ = eval(build_function(PRx₇,c,Φ,θ,ϕ)[1])
 fun_x₈ = eval(build_function(PRx₈,c,Φ,θ,ϕ)[1])
 
 function Proba(l,c,Φ,θ,ϕ)
-    x₇ = fun_x₃(c,Φ,θ,ϕ)
-    x₂   = fun_x₂(c,Φ,θ,ϕ)
-    if l ≤ fun_l₃₂(x₂[2],c,Φ,θ,ϕ)
-        p = fun_P₃₂(fun_y₃₂(l,c,Φ,θ,ϕ),c,Φ,θ,ϕ)
-    elseif l≤fun_l₂₇(x₇[2],c,Φ,θ,ϕ)
-        p = fun_P₃₂(x₂[2],c,Φ,θ,ϕ)+fun_P₂₇(fun_y₂₇(l,c,Φ,θ,ϕ),c,Φ,θ,ϕ)
+    x₆ = fun_x₆(c,Φ,θ,ϕ)
+    x₃ = fun_x₃(c,Φ,θ,ϕ)
+    p = 0
+    if l ≤ fun_l₇₃(x₃[2],c,Φ,θ,ϕ)
+        p = fun_P₇₃(fun_y₇₃(l,c,Φ,θ,ϕ),c,Φ,θ,ϕ)
+    elseif l≤fun_l₃₆(x₆[2],c,Φ,θ,ϕ)
+        p = fun_P₇₃(x₃[2],c,Φ,θ,ϕ)+fun_P₃₆(fun_y₃₆(l,c,Φ,θ,ϕ),c,Φ,θ,ϕ)
     else 
-        p = fun_P₃₂(x₂[2],c,Φ,θ,ϕ)+fun_P₆₃(x₇[2],c,Φ,θ,ϕ)+fun_P₃₂(fun_y₇₁(l,c,Φ,θ,ϕ),c,Φ,θ,ϕ)
+        p = fun_P₇₃(x₃[2],c,Φ,θ,ϕ)+fun_P₃₆(x₆[2],c,Φ,θ,ϕ)+fun_P₆₄(max(fun_y₆₄(l,c,Φ,θ,ϕ),0),c,Φ,θ,ϕ)
     end
-    p
+    2*p
 end
 
 # Tests
 
 Φ = 0.2
 θ = 0.2
-ϕ = 0.1
+ϕ = 0.5
 c = 1
 l = 1
 
@@ -121,7 +123,24 @@ x₇ = fun_x₇(c,Φ,θ,ϕ)
 x₈ = fun_x₈(c,Φ,θ,ϕ)
 
 # Pour Φ,θ,ϕ ≤ π/4
-@test x₂[2]≥x₃[2]≥x₇[2]≥x₁[2]≥x₅[2]≥x₈[2]
+@test x₇[2]≥x₃[2]≥x₆[2]≥x₄[2]≥x₅[2]≥x₁[2]
 
-fun_l₃₂(x₂[2],c,Φ,θ,ϕ)
-Proba(1,2,0.1,0.1,0.1)
+
+# Tests pour vérifier que l(y(l)) = L et y(l(y)) = yi
+@test abs(fun_y₇₃(fun_l₇₃(x₃[2],c,Φ,θ,ϕ),c,Φ,θ,ϕ)-fun_l₇₃(fun_y₇₃(x₃[2],c,Φ,θ,ϕ),c,Φ,θ,ϕ)) < 1e-14 
+@test abs(fun_y₇₃(fun_l₇₃(x₃[2],c,Φ,θ,ϕ),c,Φ,θ,ϕ)-x₃[2]) < 1e-14
+
+# Tests pour croissance de la corde
+@test fun_l₇₃(x₃[2],c,Φ,θ,ϕ) ≤ fun_l₃₆(x₆[2],c,Φ,θ,ϕ) ≤ fun_l₆₄(x₄[2],c,Φ,θ,ϕ)
+
+fun_l₇₃(x₂[2],c,Φ,θ,ϕ)
+fun_P₇₃(x₂[2],c,Φ,θ,ϕ)
+
+Proba(1,c,Φ,θ,ϕ)
+
+lrange = 0:0.01:1.5
+
+using Plots
+include("../scr/utils.jl")
+
+plot(lrange, apply(l->Proba(l,c,Φ,θ,ϕ),lrange))
