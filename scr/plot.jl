@@ -1,6 +1,6 @@
 using Plots
 using LaTeXStrings
-include("test_cld.jl")
+include("../test/test_cld.jl")
 
 # Function to plot the chord length distribution
 function plotCLD(cld::Vector)

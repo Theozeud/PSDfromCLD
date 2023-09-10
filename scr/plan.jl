@@ -1,4 +1,6 @@
-# Projection in the plan
+using LaTeXStrings
+
+# Plan
 abstract type Plan end
 struct XY <: Plan end
 struct XZ <: Plan end
