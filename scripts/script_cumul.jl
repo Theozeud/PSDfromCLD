@@ -7,5 +7,5 @@ shape = Tetraedron(4)
 #cld = computeCLD(shape, 100000)
 #plotCumulCLD(cld)
 
-cld_bins, bins_number = computeCumulCLD(shape, 100000, 1000)
-plotCumulHand(cld_bins, bins_number)
+cld_bins, bins_number = computeCumulCLD(shape, 1000, 10)
+plotCumul(cld_bins, bins_number)

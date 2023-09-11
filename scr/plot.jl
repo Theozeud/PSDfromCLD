@@ -19,21 +19,12 @@ function plotCumulCLD(cld::Vector)
     ylabel!("Cumulative number of measurements")
 end
 
-function plotCumulHand(cld_bins::Vector, bins_number::Vector)
+function plotCumul(cld_bins::Vector, bins_number::Vector)
     plot(cld_bins, bins_number)
     title!("Chord Length Repartition Function")
     xlabel!("Chord Length")
     ylabel!("Cumulative number of measurements")
 end
-
-
-# Function to plot the cumulative chord length distribution
-#function plotCumulCLD(cld::Vector)
-#    histogram(cld,cumulative_enabled=true)
-#    title!("Chord Length Distribution")
-#    xlabel!("Chord Length")
-#    ylabel!("Number of Simulated Measurements")
-#end
 
 
 # Function to plot the points into a plan
