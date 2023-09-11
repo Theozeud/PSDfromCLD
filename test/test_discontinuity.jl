@@ -7,18 +7,21 @@ cube = Cube(3)
 tetrae = Tetraedron(5)
 
 function give_abs(low, high, nbbins) #give abscisse list
-    size_bin = (high - low) / nbbins
-    abscisse = [0.0 for k in range(1, nbbins)]
-    for index in range(1, nbbins)
-        step = low + size_bin * index
-        abscisse[index] = step
-    end
-    abscisse
+    #=
+        size_bin = (high - low) / nbbins
+        abscisse = zeros(nbbins)
+        for index in 1:nbbins
+            step = low + size_bin * index
+            abscisse[index] = step
+        end
+        abscisse
+    =#
 end
 
+#=
 function plothist(cld::Vector, low, high, nbbins) #plot histogram
     size_bin = (high - low) / nbbins
-    bins = [0 for k in range(1, nbbins)]
+    bins = zeros(nbbins)
     for value in cld
         bin_index = 1
         for index in range(1, nbbins)
@@ -29,19 +32,35 @@ function plothist(cld::Vector, low, high, nbbins) #plot histogram
         end
         bins[bin_index] += 1
     end
-    absc = give_abs(low, high, nbbins)
+    absc = range(low, high, nbbins+1)
     #@show (bins[68:72], absc[68:72]) #cube
     @show (bins[58:62], absc[58:62])
 
     plot(absc, bins)
 end
-
+=#
+function plothist(cld::Vector, low, high, nbbins) #plot histogram
+    absc = range(low, high, nbbins)
+    bins = zeros(nbbins)
+    for value in cld
+        bin_index = 1
+        for (index,step) in zip(1:nbbins,absc)
+            if step < value
+                bin_index = index
+            end
+        end
+        bins[bin_index] += 1
+    end
+    #@show (bins[68:72], absc[68:72]) #cube
+    @show (bins[58:62], absc[58:62])
+    plot(absc, bins)
+end
 
 
 function plotShape(cp::ConvexPolyhedron, ntirage::Int=1, p::Plan=XY()) 
     #plot projection for specific chordlength
     tmp = cp
-    for i in range(1, ntirage)
+    for i in 1:ntirage
         Φ = 2π * rand()
         θ = π * rand()
         ϕ = π / 2 * rand()
