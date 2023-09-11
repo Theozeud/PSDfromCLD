@@ -2,11 +2,7 @@ include("../scr/shape.jl")
 include("../scr/cld.jl")
 include("../scr/plot.jl")
 
+include("../scr/opti.jl")
+include("../scr/random.jl")
 
 
-shape = Cube(4)
-
-
-@time cld = computeCLD(shape, 100000)
-
-plotCLD(cld)

@@ -48,6 +48,7 @@ function chordlength(points, h)
 end
 
 
+# Function to compute one chord length of a shape (randomly if no angle is given)
 function computeCL(cp::ConvexPolyhedron, p::Plan=XY(); Φ::Real=2π * rand(), θ::Real=π * rand(), ϕ::Real=π / 2 * rand())
   V = vertices(cp)
   RotV = Rotation(V, Φ, θ, ϕ)
@@ -58,6 +59,8 @@ function computeCL(cp::ConvexPolyhedron, p::Plan=XY(); Φ::Real=2π * rand(), θ
   chordlength(ConvV, yₗ)
 end
 
+
+# Function to compute the chord length distribution of a shape
 function computeCLD(X::Shape3D, ntirage::Int=1, p::Plan=XY(); kwargs...)
   CLD = zeros(ntirage)
   for i in 1:ntirage
@@ -66,4 +69,13 @@ function computeCLD(X::Shape3D, ntirage::Int=1, p::Plan=XY(); kwargs...)
   CLD
 end
 
+
+# Function to compute the matrix K
+function matrixCLD(X::Shape3D, nb_l::Int, nb_r::Int, ntirage::Int = 1, p::Plan=XY(); kwargs...)
+  K = zeros(nb_l,nb_r)
+  for r in 1:nb_r
+    K[1:end,r] = computeCLD(X, ntirage, p; kwargs...)
+  end
+  K
+end
 
