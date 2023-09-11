@@ -1,4 +1,4 @@
-include("cld.jl")
+include("../scr/cld.jl")
 using Test
 
 # Test for creating shapes
