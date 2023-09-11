@@ -71,10 +71,11 @@ end
 
 
 # Function to compute the matrix K
-function matrixCLD(X::Shape3D, nb_l::Int, nb_r::Int, ntirage::Int = 1, p::Plan=XY(); kwargs...)
+function matrixCLD(X::Shape3D, nb_l::Int, R::Vector; ntirage::Int = 1, p::Plan=XY(), kwargs...)
   K = zeros(nb_l,nb_r)
-  for r in 1:nb_r
-    K[1:end,r] = computeCLD(X, ntirage, p; kwargs...)
+  base_cld = computeCLD(X, ntirage, p; kwargs...)
+  for (ir,r) in zip(R,eachindex(R))
+    K[1:end,ir] = base_cld * r
   end
   K
 end

@@ -1,6 +1,6 @@
 
 # Known distribution for testing the compution of PSD
 
-normal(n::Int, m::Real, σ::Real) = randn(n)*σ+m
+normal(r::Real, m::Real, σ::Real) = 1/sqrt(2*σ)*exp(-(r-m)/(2*σ))
 
-uniform(n::Int, a::inf, b::sup) = rand(n)*(b-a)+a
+uniform(::Real, a::inf, b::sup) = 1/(b-a)
