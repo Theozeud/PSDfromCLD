@@ -11,14 +11,29 @@ function plotCLD(cld::Vector)
     ylabel!("Number of Simulated Measurements")
 end
 
+function plotCumulCLD(cld::Vector)
+    sorted_cld = sort(cld)
+    plot(sorted_cld, [i for i = 1:length(sorted_cld)])
+    title!("Chord Length Repartition Function")
+    xlabel!("Chord Length")
+    ylabel!("Cumulative number of measurements")
+end
+
+function plotCumulHand(cld_bins::Vector, bins_number::Vector)
+    plot(cld_bins, bins_number)
+    title!("Chord Length Repartition Function")
+    xlabel!("Chord Length")
+    ylabel!("Cumulative number of measurements")
+end
+
 
 # Function to plot the cumulative chord length distribution
-function plotCumulCLD(cld::Vector)
-    histogram(cld,cumulative_enabled=true)
-    title!("Chord Length Distribution")
-    xlabel!("Chord Length")
-    ylabel!("Number of Simulated Measurements")
-end
+#function plotCumulCLD(cld::Vector)
+#    histogram(cld,cumulative_enabled=true)
+#    title!("Chord Length Distribution")
+#    xlabel!("Chord Length")
+#    ylabel!("Number of Simulated Measurements")
+#end
 
 
 # Function to plot the points into a plan
@@ -33,7 +48,7 @@ plot2D(p::PointsIn2D) = plot2D(vertices(p), plan(p))
 
 
 # Function to plot the points in the convex hull
-function plotConvexHull(points::Vector, convexHullPoints::Vector = convexHull(points), pl::Plan=XY())
+function plotConvexHull(points::Vector, convexHullPoints::Vector=convexHull(points), pl::Plan=XY())
     scatter(points, aspect_ratio=:equal, label="all", mc=:blue)
     scatter!(convexHullPoints, aspect_ratio=:equal, label="convex hull", mc=:red)
     xlabel!(Xlabel(pl))
@@ -51,7 +66,7 @@ function random_height(points::Vector)
     edgeₘᵢₙ, edgeₘₐₓ = [e[index(p)] for e in minAndmax(ConvV, index(p))]
     yₗ = rand() * (edgeₘₐₓ - edgeₘᵢₙ) + edgeₘᵢₙ
 end
-          
+
 
 function plot_chord(points::Vector, yₗ=random_height(points)::Real)
     ConvV = convexHull(points)

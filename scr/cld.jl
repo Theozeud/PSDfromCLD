@@ -69,6 +69,27 @@ function computeCLD(X::Shape3D, ntirage::Int=1, p::Plan=XY(); kwargs...)
   CLD
 end
 
+# This function returns a repartition function for the CLD, value is given for each bin
+function computeCumulCLD(X::Shape3D, ntirage::Int=1, nbins::Int=100, p::Plan=XY(); kwargs...)
+  CLD = computeCLD(X, ntirage, p; kwargs...)
+  max_length = maximum(CLD)
+  bins = Vector(LinRange(0, max_length, nbins))
+  bins_number = zeros(nbins)
+  sorted_CLD = sort(CLD)
+  current_cl_index = 1
+  for bin_index in 1:nbins
+    if bin_index != 1
+      bins_number[bin_index] = bins_number[bin_index-1]
+    end
+    while sorted_CLD[current_cl_index] < bins[bin_index]
+      bins_number[bin_index] += 1
+      current_cl_index += 1
+    end
+    bin_index += 1
+
+  end
+  bins, bins_number
+end
 
 # Function to compute the matrix K
 function matrixCLD(X::Shape3D, nb_l::Int, R::Vector; ntirage::Int = 1, p::Plan=XY(), kwargs...)
