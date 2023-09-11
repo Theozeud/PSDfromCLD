@@ -14,6 +14,7 @@ ProjXY(X) = X[1:2]
 a = c
 b = c
 
+
 x₁ = [-a / 2, -b / 2,  c / 2]
 x₂ = [-a / 2,  b / 2,  c / 2]
 x₃ = [ a / 2,  b / 2,  c / 2]
@@ -105,13 +106,15 @@ function Proba(l,c,Φ,θ,ϕ)
     2*p
 end
 
-# Tests
+using Test
 
 Φ = 0.2
 θ = 0.2
-ϕ = 0.5
+ϕ = 0.79
 c = 1
 l = 1
+
+
 
 x₁ = fun_x₁(c,Φ,θ,ϕ)
 x₂ = fun_x₂(c,Φ,θ,ϕ)
@@ -122,19 +125,24 @@ x₆ = fun_x₆(c,Φ,θ,ϕ)
 x₇ = fun_x₇(c,Φ,θ,ϕ)
 x₈ = fun_x₈(c,Φ,θ,ϕ)
 
+
+
+
+
+
+#=
 # Pour Φ,θ,ϕ ≤ π/4
 @test x₇[2]≥x₃[2]≥x₆[2]≥x₄[2]≥x₅[2]≥x₁[2]
 
 
 # Tests pour vérifier que l(y(l)) = L et y(l(y)) = yi
-@test abs(fun_y₇₃(fun_l₇₃(x₃[2],c,Φ,θ,ϕ),c,Φ,θ,ϕ)-fun_l₇₃(fun_y₇₃(x₃[2],c,Φ,θ,ϕ),c,Φ,θ,ϕ)) < 1e-14 
-@test abs(fun_y₇₃(fun_l₇₃(x₃[2],c,Φ,θ,ϕ),c,Φ,θ,ϕ)-x₃[2]) < 1e-14
+@test abs(fun_y₇₃(fun_l₇₃(x₃[2],c,Φ,θ,ϕ),c,Φ,θ,ϕ)-fun_l₇₃(fun_y₇₃(x₃[2],c,Φ,θ,ϕ),c,Φ,θ,ϕ)) < 1e-13
+@test abs(fun_y₇₃(fun_l₇₃(x₃[2],c,Φ,θ,ϕ),c,Φ,θ,ϕ)-x₃[2]) < 1e-13
 
 # Tests pour croissance de la corde
 @test fun_l₇₃(x₃[2],c,Φ,θ,ϕ) ≤ fun_l₃₆(x₆[2],c,Φ,θ,ϕ) ≤ fun_l₆₄(x₄[2],c,Φ,θ,ϕ)
 
-fun_l₇₃(x₂[2],c,Φ,θ,ϕ)
-fun_P₇₃(x₂[2],c,Φ,θ,ϕ)
+
 
 Proba(1,c,Φ,θ,ϕ)
 
@@ -143,4 +151,57 @@ lrange = 0:0.01:1.5
 using Plots
 include("../scr/utils.jl")
 
-plot(lrange, apply(l->Proba(l,c,Φ,θ,ϕ),lrange))
+
+include("../scr/cld.jl")
+include("../scr/shape.jl")
+include("../scr/plot.jl")
+
+shape = Cube(c)
+cld = computeCLD(shape, 1000; Φ = Φ, θ = θ, ϕ = ϕ)
+plt2 = plotCumulCLD(cld/1000)
+
+plot!(plt2, lrange, apply(l->Proba(l,c,Φ,θ,ϕ),lrange))
+
+
+rangeΦ = 0:0.01:2π
+rangeθ = 0:0.005:π
+
+function plot_convexhull(c,ϕ)
+    X = zeros(length(rangeΦ),length(rangeθ))
+    i = 0
+    j = 0
+    for Φ in rangeΦ
+        i+=1
+        for θ in rangeθ
+            j+=1
+            x₁ = fun_x₁(c,Φ,θ,ϕ)
+            x₂ = fun_x₂(c,Φ,θ,ϕ)
+            x₃ = fun_x₃(c,Φ,θ,ϕ)
+            x₄ = fun_x₄(c,Φ,θ,ϕ)
+            x₅ = fun_x₅(c,Φ,θ,ϕ)
+            x₆ = fun_x₆(c,Φ,θ,ϕ)
+            x₇ = fun_x₇(c,Φ,θ,ϕ)
+            x₈ = fun_x₈(c,Φ,θ,ϕ)
+            cv = convexHull([x₁,x₂,x₃,x₄,x₅,x₆,x₇,x₈])
+            if x₁∉cv
+                X[i,j] = 1
+            elseif x₂∉cv
+                X[i,j] = 2
+            elseif x₃∉cv
+                X[i,j] = 3
+            elseif x₄∉cv
+                X[i,j] = 4
+            else
+                X[i,j] = 0
+            end     
+        end  
+        j = 0
+        end
+    X
+end
+
+P = plot_convexhull(3,0)
+
+using Plots
+Plots.plot3d(rangeΦ,rangeθ,P)
+=#

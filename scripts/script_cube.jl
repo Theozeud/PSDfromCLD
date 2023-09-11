@@ -5,6 +5,7 @@ include("../scr/plot.jl")
 
 
 shape = Cube(4)
+#shape =  Tetraedron(4)
 
 
 #Φ = 3.9420912570528985
@@ -14,6 +15,6 @@ shape = Cube(4)
 
 
 
-cld = computeCLD(shape, 10000)
+@time cld = computeCLD(shape, 100000)
 
 plotCLD(cld)
