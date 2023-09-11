@@ -42,5 +42,3 @@ function compare_cld_sphere_polyhedron(r::Float64, polyhedron)
 end
 
 #choose between "tetrahedron", "cube" or "icosahedron"
-
-#compare_cld_sphere_polyhedron(2.0, "tetrahedron")
