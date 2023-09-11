@@ -1,5 +1,6 @@
 using Plots
 using LaTeXStrings
+
 include("../test/test_cld.jl")
 
 # Function to plot the chord length distribution
@@ -9,6 +10,16 @@ function plotCLD(cld::Vector)
     xlabel!("Chord Length")
     ylabel!("Number of Simulated Measurements")
 end
+
+
+# Function to plot the cumulative chord length distribution
+function plotCumulCLD(cld::Vector)
+    histogram(cld,cumulative_enabled=true)
+    title!("Chord Length Distribution")
+    xlabel!("Chord Length")
+    ylabel!("Number of Simulated Measurements")
+end
+
 
 # Function to plot the points into a plan
 function plot2D(points::Vector, pl::Plan=XY())
@@ -32,6 +43,8 @@ end
 
 plotConvexHull(p::PointsIn2D) = plotConvexHull(vertices(p))
 
+
+# Function to visualise the chord length computed
 function random_height(points::Vector)
     p = XY()
     ConvV = convexHull(points)
@@ -39,7 +52,7 @@ function random_height(points::Vector)
     yₗ = rand() * (edgeₘₐₓ - edgeₘᵢₙ) + edgeₘᵢₙ
 end
           
-# Function to visualise the chord length computed
+
 function plot_chord(points::Vector, yₗ=random_height(points)::Real)
     ConvV = convexHull(points)
     cl, x_left, x_right = test_chordlength(ConvV, yₗ)
