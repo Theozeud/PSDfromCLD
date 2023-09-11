@@ -1,6 +1,20 @@
 
 # Known distribution for testing the compution of PSD
+abstract type RandomShape end
 
-normal(r::Real, m::Real, σ::Real) = 1/sqrt(2*σ)*exp(-(r-m)/(2*σ))
+struct Normal <: RandomShape 
+    m::Real
+    σ::Real
+end
 
-uniform(::Real, inf::Real, sup::Real) = 1/(sup-inf)
+law(n::Normal,r::Real) = 1/sqrt(2*n.σ^2)*exp(-(r-n.m)/(2*n.σ^2))
+tir(n::Normal, m::Int = 1) = randn(m)*n.σ.+n.m
+
+struct Uniform <: RandomShape 
+    sup::Real
+    inf::Real
+end
+
+law(u::Uniform, r::Real) = 1/(u.sup-u.inf)
+tir(u::Uniform, n::Int = 1) = rand(n)*(u.sup-u.inf) .+ u.inf
+
