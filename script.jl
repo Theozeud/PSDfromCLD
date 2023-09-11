@@ -6,7 +6,8 @@ include("test_cld.jl")
 
 
 #shape = Cube(4)
-shape = regular_icosahedron(2)
+#shape = regular_icosahedron(2)
+shape = Tetraedron(4)
 
 #Φ = 3.9420912570528985
 #ϕ = 0.3783842861610453
