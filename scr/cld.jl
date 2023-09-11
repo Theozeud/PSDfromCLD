@@ -66,4 +66,25 @@ function computeCLD(X::Shape3D, ntirage::Int=1, p::Plan=XY(); kwargs...)
   CLD
 end
 
+function computeCumulCLD(X::Shape3D, ntirage::Int=1, nbins::Int=100, p::Plan=XY(); kwargs...)
+  CLD = computeCLD(X, ntirage, p; kwargs...)
+  max_length = maximum(CLD)
+  bins = Vector(LinRange(0, max_length, nbins))
+  bins_number = zeros(nbins)
+  sorted_CLD = sort(CLD)
+  current_cl_index = 1
+  for bin_index in 1:nbins
+    bins_number[bin_index]
+
+    while CLD[current_cl_index] < bins[bin_index]
+      for b in bin_index:nbins
+        bins_number[b] += 1
+      end
+      current_cl_index += 1
+    end
+    bin_index += 1
+
+  end
+  bins, bins_number
+end
 
