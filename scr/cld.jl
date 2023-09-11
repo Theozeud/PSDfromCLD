@@ -66,6 +66,7 @@ function computeCLD(X::Shape3D, ntirage::Int=1, p::Plan=XY(); kwargs...)
   CLD
 end
 
+# This function returns a repartition function for the CLD, value is given for each bin
 function computeCumulCLD(X::Shape3D, ntirage::Int=1, nbins::Int=100, p::Plan=XY(); kwargs...)
   CLD = computeCLD(X, ntirage, p; kwargs...)
   max_length = maximum(CLD)
@@ -74,12 +75,11 @@ function computeCumulCLD(X::Shape3D, ntirage::Int=1, nbins::Int=100, p::Plan=XY(
   sorted_CLD = sort(CLD)
   current_cl_index = 1
   for bin_index in 1:nbins
-    bins_number[bin_index]
-
-    while CLD[current_cl_index] < bins[bin_index]
-      for b in bin_index:nbins
-        bins_number[b] += 1
-      end
+    if bin_index != 1
+      bins_number[bin_index] = bins_number[bin_index-1]
+    end
+    while sorted_CLD[current_cl_index] < bins[bin_index]
+      bins_number[bin_index] += 1
       current_cl_index += 1
     end
     bin_index += 1
