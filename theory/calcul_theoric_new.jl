@@ -33,6 +33,8 @@ PRx6 = ProjXY(Rotz * Roty * Rotx * x6)
 PRx7 = ProjXY(Rotz * Roty * Rotx * x7)
 PRx8 = ProjXY(Rotz * Roty * Rotx * x8)
 PRx = [PRx1, PRx2, PRx3, PRx4, PRx5, PRx6, PRx7, PRx8]
+
+
 function distance()
     D = Dict()
     for i in 1:8

@@ -7,16 +7,16 @@ include("../scr/random.jl")
 
 
 # Inputs
-sizeR = 2
-sizeL = 2
-ntir = 10
+sizeR = 3
+sizeL = 3
+ntir = 1000000
 
 # Random size
-random = Normal(3,1)
+random = Uniform(5,10)
 R = tir(random, sizeR)
 
-# Given L
-L = range(1,4,sizeL)
+# Given L (comes from the mesurement)
+L = range(1,4,sizeL) # Problème ??
 
 # Base Shape
 shape = Cube(1)
@@ -24,26 +24,7 @@ shape = Cube(1)
 # Utils function
 bins, bins_number = computeCumulCLD(shape, ntir, 10000)
 
-function probaCLD(l,r,bins,bins_number)
-    index = 0
-    for e in bins
-        if l≥e*r
-            index += 1
-        end
-    end
-    bins_number[index]/ntir
-end
-
 # Computation of the matrix K
-function matrixCLD()
-    K = zeros(sizeR,sizeL)
-    for i in 1:sizeR
-        for j in 1:sizeL
-            K[i,j] = probaCLD(L[j],R[i],bins,bins_number)
-        end
-    end
-    K
-end
 K = matrixCLD()
 
 # Computation of the CLD for different size
@@ -61,8 +42,13 @@ q = computeCLDdifferentSize()
 
 
 # Optimisation
-ψ₀ = 0
+ψ₀ = zeros(sizeR)
 method = LBFGS()
 ε = 0.1
 
-optimizePSD(K, q, ε, method, ψ₀)
+opt = optimizePSD(K, q, ε, method, ψ₀)
+
+trueresult = [law(random,r) for r in R]
+
+res = Optim.minimizer(opt)
+
