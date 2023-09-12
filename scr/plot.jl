@@ -19,7 +19,7 @@ function plotCumulCLD(cld::Vector)
     ylabel!("Cumulative number of measurements")
 end
 
-function plotCumul(cld_bins::Vector, bins_number::Vector)
+function plotCumulCLD(cld_bins::Vector, bins_number::Vector)
     plot(cld_bins, bins_number)
     title!("Chord Length Repartition Function")
     xlabel!("Chord Length")
@@ -51,18 +51,19 @@ plotConvexHull(p::PointsIn2D) = plotConvexHull(vertices(p))
 
 
 # Function to visualise the chord length computed
-function random_height(points::Vector)
-    p = XY()
-    ConvV = convexHull(points)
-    edgeₘᵢₙ, edgeₘₐₓ = [e[index(p)] for e in minAndmax(ConvV, index(p))]
-    yₗ = rand() * (edgeₘₐₓ - edgeₘᵢₙ) + edgeₘᵢₙ
-end
 
-
-function plot_chord(points::Vector, yₗ=random_height(points)::Real)
+function plot_chord(points::Vector, _yₗ=missing::Union{Missing,Real})
     ConvV = convexHull(points)
+    yₗ = begin
+        if ismissing(_yₗ)
+            edgeₘᵢₙ, edgeₘₐₓ = [e[2] for e in minAndmax(ConvV, 2)]
+            rand() * (edgeₘₐₓ - edgeₘᵢₙ) + edgeₘᵢₙ
+        else
+            _yₗ
+        end
+    end
     cl, x_left, x_right = test_chordlength(ConvV, yₗ)
-    @show cl
+    #@show cl
     scatter(ConvV, aspect_ratio=:equal, label="points", mc=:blue)
     scatter!([(x_left, yₗ), (x_right, yₗ)], aspect_ratio=:equal, label="intersections", mc=:red)
     plot!([(x_left, yₗ), (x_right, yₗ)], aspect_ratio=:equal, lc=:red)
