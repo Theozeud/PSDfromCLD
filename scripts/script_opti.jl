@@ -12,11 +12,11 @@ sizeL = 3
 ntir = 1000000
 
 # Random size
-random = Uniform(10,5)
+random = Uniform(5,10)
 R = tir(random, sizeR)
 
 # Given L (comes from the mesurement)
-L = range(1,4,sizeL)
+L = range(1,4,sizeL) # Problème ??
 
 # Base Shape
 shape = Cube(1)
