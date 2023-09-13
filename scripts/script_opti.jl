@@ -13,8 +13,8 @@ ntir = 1000000
 ntirCLD = ntir
 
 # Random size
-random = Uniform(5, 10)
-#random = Normal(5, 0.1)
+#random = Uniform(5, 10)
+random = Normal(5, 0.5)
 #R = tir(random, sizeR)
 
 # Given L (comes from the mesurement)
@@ -30,7 +30,7 @@ Ltir = computeCLD(shape, ntir)
 #bins, bins_number = computeCumulCLD(shape, ntir, 10000)
 
 # Computation of the matrix K
-rMax = 20
+rMax = 10
 #lMax = maximum(Ltir)
 lMax = rMax * maximum(Ltir)
 rList = collect(range(0, rMax, sizeR))
@@ -50,28 +50,27 @@ function computeCLDdifferentSize()
     bins, bins_number = computeCumulCLD(cld, 10000)
     [probaCLD(l, cumulCLD) for l in range(0, lMax, sizeL)]
 end
-q = computeCLDdifferentSize()
+#q = computeCLDdifferentSize()
 
-#function computeCLDdifferentSize(sizeR::Int, rList::Vector)
-#    q = zeros(sizeR)
-#    for r in rList
-#        cld = 
+# q = KΨ
+Ψ = apply(x -> law(random, x), rList)
+q = K * Ψ
 
 # Optimisation
-ψ₀ = [0.2 for i in 1:sizeR]
+ψ₀ = [0.2 + rand() * 0.01 for i in 1:sizeR]
+
 method = LBFGS()
-ε = 0.1
+ε = 1
 
 opt = optimizePSD(K, q, ε, method, ψ₀)
 
 #trueresult = [law(random, r) for r in R]
 
-trueresult = apply(x -> x >= 5 && x <= 10 ? 0.2 : 0, rList)
 
 res = Optim.minimizer(opt)
 
-plotOptiRes(rList, res)
 
-#qOpti = K * trueresult
 #plot(lList, qOpti)
 #plot!(lList, q)
+
+plotOptiRes(rList, res, Ψ)
