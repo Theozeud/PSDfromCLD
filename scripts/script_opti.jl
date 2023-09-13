@@ -7,8 +7,8 @@ include("../scr/random.jl")
 
 
 # Inputs
-sizeR = 10
-sizeL = 1000
+sizeR = 100
+sizeL = 100
 ntir = 1000000
 ntirCLD = ntir
 
@@ -31,11 +31,12 @@ Ltir = computeCLD(shape, ntir)
 
 # Computation of the matrix K
 rMax = 20
-lMax = maximum(Ltir)
+#lMax = maximum(Ltir)
+lMax = rMax * maximum(Ltir)
 rList = collect(range(0, rMax, sizeR))
 lList = collect(range(0, lMax, sizeL))
 cumulCLD = computeCumulCLD(Ltir)
-K = matrixCLD(sizeL, sizeR, sorted(Ltir), rList, cumulCLD)
+K = matrixCLD(sizeL, sizeR, lList, rList, cumulCLD)
 
 # Computation of the CLD for different size
 function computeCLDdifferentSize()
@@ -69,8 +70,8 @@ trueresult = apply(x -> x >= 5 && x <= 10 ? 0.2 : 0, rList)
 
 res = Optim.minimizer(opt)
 
-#plotOptiRes(rList, res)
+plotOptiRes(rList, res)
 
-qOpti = K * trueresult
-plot(lList, qOpti)
-plot!(lList, q)
+#qOpti = K * trueresult
+#plot(lList, qOpti)
+#plot!(lList, q)
