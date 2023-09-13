@@ -4,8 +4,8 @@ using LaTeXStrings
 include("../test/test_cld.jl")
 
 # Function to plot the chord length distribution
-function plotCLD(cld::Vector)
-    histogram(cld, bins=range(0, 6, 100))
+function plotCLD(cld::Vector, nbbins::Int = 100)
+    histogram(cld, bins=range(0, max(cld...), nbbins))
     title!("Chord Length Distribution")
     xlabel!("Chord Length")
     ylabel!("Number of Simulated Measurements")

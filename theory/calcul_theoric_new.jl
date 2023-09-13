@@ -1,53 +1,38 @@
 using Symbolics
 using Test
 
-include("../scr/rotation.jl")
 
-@variables Φ,θ,ϕ
+@variables ϕ
 
-Rotx = Rx(Φ) 
-Roty = Ry(θ)
-Rotz = Rz(ϕ)
-ProjXY(X) = X[1:2]
+Rz = [cos(ϕ) -sin(ϕ);
+      sin(ϕ) cos(ϕ) ]
 
 @variables c
-a = c
-b = c
+
+x1 = [-c/2,-c/2]
+x2 = [-c/2, c/2]
+x3 = [ c/2, c/2]
+x4 = [ c/2,-c/2]
+
+Rx1 = expand.(Rz*x1)
+Rx2 = expand.(Rz*x2)
+Rx3 = expand.(Rz*x3)
+Rx4 = expand.(Rz*x4)
+
+Rx1 = Rz*x1
 
 
-x1 = [-a / 2, -b / 2,  c / 2]
-x2 = [-a / 2,  b / 2,  c / 2]
-x3 = [ a / 2,  b / 2,  c / 2]
-x4 = [ a / 2, -b / 2,  c / 2]
-x5 = [-a / 2, -b / 2, -c / 2]
-x6 = [-a / 2,  b / 2, -c / 2]
-x7 = [ a / 2,  b / 2, -c / 2]
-x8 = [ a / 2, -b / 2, -c / 2]
+intersect2D(p₁, p₂, y) = (y - p₁[2]) * (p₂[1] - p₁[1]) / (p₂[2] - p₁[2]) + p₁[1]
 
-PRx1 = ProjXY(Rotz * Roty * Rotx * x1)
-PRx2 = ProjXY(Rotz * Roty * Rotx * x2)
-PRx3 = ProjXY(Rotz * Roty * Rotx * x3)
-PRx4 = ProjXY(Rotz * Roty * Rotx * x4)
-PRx5 = ProjXY(Rotz * Roty * Rotx * x5)
-PRx6 = ProjXY(Rotz * Roty * Rotx * x6)
-PRx7 = ProjXY(Rotz * Roty * Rotx * x7)
-PRx8 = ProjXY(Rotz * Roty * Rotx * x8)
-PRx = [PRx1, PRx2, PRx3, PRx4, PRx5, PRx6, PRx7, PRx8]
-
-
-function distance()
-    D = Dict()
-    for i in 1:8
-        for j in (1+i):8
-            formu = expand(PRx[i][2] - PRx[j][2])
-            if expand(PRx[i][2] - PRx[j][2])∉keys(D)
-                D[formu] = [(i,j)]
-            else
-                push!(D[formu],(i,j))
-            end
-        end
-    end
-    D
+function yl(p1,p2,p3,p4,l)
+    A₁₂ = (p2[1]-p1[1])/(p2[2]-p1[2]) 
+    A₃₄ = (p4[1]-p3[1])/(p4[2]-p3[2])
+    expand((l - (p1[1]-p3[1]) + A₁₂*p1[2] - A₃₄*p3[2])/(A₁₂ - A₃₄))
 end
 
+@variables l
+y = yl(Rx2,Rx1,Rx4,Rx1,l)
 
+Dl = Differential(l)
+
+expand_derivatives(Dl(y))
