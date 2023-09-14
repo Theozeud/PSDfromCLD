@@ -64,12 +64,16 @@ function plot_chord(points::Vector, _yₗ=missing::Union{Missing,Real})
     end
     cl, x_left, x_right = test_chordlength(ConvV, yₗ)
     #@show cl
-    scatter(ConvV, aspect_ratio=:equal, label="points", mc=:blue)
-    scatter!([(x_left, yₗ), (x_right, yₗ)], aspect_ratio=:equal, label="intersections", mc=:red)
-    plot!([(x_left, yₗ), (x_right, yₗ)], aspect_ratio=:equal, lc=:red)
-    xlabel!(L"x")
-    ylabel!(L"y")
-    title!("Chord for a given height")
+    scatter(ConvV, aspect_ratio=:equal, label="points", mc=:blue, primary=false, grid=false, showaxis=false)
+
+    for i in 1:length(ConvV)-1
+        plot!([ConvV[i], ConvV[i+1]], aspect_ratio=:equal, lc=:blue, linewidth=4, dpi=300, primary=false)
+    end
+    plot!([ConvV[end], ConvV[1]], aspect_ratio=:equal, lc=:blue, linewidth=4, dpi=300, primary=false)
+    scatter!([(x_left, yₗ), (x_right, yₗ)], aspect_ratio=:equal, primary=false, mc=:red)
+    plot!([(x_left, yₗ), (x_right, yₗ)], aspect_ratio=:equal, lc=:red, linewidth=4, dpi=300, label="Chord", xguidefontsize=20, tickfontsize=5)
+
+    title!("Chord on the projection")
 end
 
 plot_chord(p::PointsIn2D, h::Real) = plot_chord(vertices(p), h::Real)
