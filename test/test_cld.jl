@@ -8,12 +8,12 @@ function test_chordlength(points, h)
     #p_above_min = length(above_h) == 1 ? [_min(above_h, 2)] : two_min(above_h, 2, 1)
     #p_below_max = length(below_h) == 1 ? [_max(below_h, 2)] : two_max(below_h, 2, 1)
 
-    @show p_above_min = length(above_h) == 1 ? [_min(above_h, 2)] : two_points_above(above_h, _max(below_h, 2), 2, 1)
-    @show p_below_max = length(below_h) == 1 ? [_max(below_h, 2)] : two_points_below(below_h, _min(above_h, 2), 2, 1)
+    p_above_min = length(above_h) == 1 ? [_min(above_h, 2)] : two_points_above(above_h, _max(below_h, 2), 2, 1)
+    p_below_max = length(below_h) == 1 ? [_max(below_h, 2)] : two_points_below(below_h, _min(above_h, 2), 2, 1)
 
-    @show h
-    @show x_left = intersect2D(p_above_min[1], p_below_max[1], h)
-    @show x_right = intersect2D(p_above_min[end], p_below_max[end], h)
+
+    x_left = intersect2D(p_above_min[1], p_below_max[1], h)
+    x_right = intersect2D(p_above_min[end], p_below_max[end], h)
     cl = abs(x_right - x_left)
 
 
@@ -29,7 +29,7 @@ function test_computeCL(cp::ConvexPolyhedron, p::Plan=XY(); Φ::Real=2π * rand(
     ConvV = convexHull(ProjV)
     edgeₘᵢₙ, edgeₘₐₓ = [e[index(p)] for e in minAndmax(ConvV, index(p))]
     yₗ = rand() * (edgeₘₐₓ - edgeₘᵢₙ) + edgeₘᵢₙ
-    @show test_chordlength(ConvV, yₗ)
+    test_chordlength(ConvV, yₗ)
 end
 
 function test_computeCLD(X::Shape3D, ntirage::Int=1, p::Plan=XY(); kwargs...)
