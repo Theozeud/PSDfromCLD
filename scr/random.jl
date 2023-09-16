@@ -5,16 +5,16 @@ include("../scr/utils.jl")
 # Known distribution for testing the compution of PSD
 abstract type RandomShape end
 
-function plotLaw(rs::RandomShape, ntirage::Int; title::Bool=false)
+function plotLaw(rs::RandomShape, ntirage::Int; title_enable::Bool=false)
     xmin, xmax = interval(rs)
     x = range(xmin, xmax, ntirage)
     y = apply(x -> law(rs, x), x)
     plot(x, y, label=shortTitle(rs))
     xlabel!(L"x")
     ylabel!(L"pdf(x)")
-    #if title
-    #title!(title(rs))
-    #end
+    if title_enable
+        title!(title(rs))
+    end
 end
 
 struct Normal <: RandomShape
