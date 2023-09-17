@@ -24,9 +24,9 @@ function plotOptiRes(rList::Vector, Ψₙᵤₘ::Vector, Ψₜᵣᵤₑ::Vector)
 end
 
 function plotOptiRes(rList::Vector, Ψₙᵤₘ::Vector, Ψₜᵣᵤₑ::Vector, Ψ₀::Vector)
-    plot(rList, Ψₙᵤₘ, label="Numerical Resolution", linewidth=3, dpi=300)#, yticks=0:0.4)
-    plot!(rList, Ψₜᵣᵤₑ, label="Exact", linewidth=3, dpi=300)
-    plot!(rList, Ψ₀, label="Initial Distribution", linewidth=3, dpi=300)
+    plot(rList, Ψₙᵤₘ, label="Numerical Resolution", linewidth=8, dpi=300, legendfontsize=10, titlefontsize=22, guidefontsize=16)#, legend=false)# legend=:outerbottomright)
+    plot!(rList, Ψₜᵣᵤₑ, label="Exact", linewidth=8, dpi=300)
+    plot!(rList, Ψ₀, label="Initial Distribution", linewidth=8, dpi=300)
     xlabel!("Particle Size")
     ylabel!("Probability density")
     title!("Particle Size Distribution")
