@@ -105,23 +105,14 @@ function probaCLD(l::Real, cumulcld::Tuple)
   nbins[index] / nbins[end]
 end
 
-#function matrixCLD(sizeL::Real, sizeR::Real, L::Vector, R::Vector, cumulcld::Tuple)
-#  K = zeros(sizeL, sizeR)
-#  for i in 1:sizeL
-#    for j in 1:sizeR
-#      newcumul = (cumulcld[1] * R[j], cumulcld[2])
-#      K[i, j] = probaCLD(L[i], newcumul)
-#    end
-#  end
-#  K
-#end
-
-function matrixCLD(sizeL::Real, sizeR::Real, lList::Vector, rList::Vector, cumulcld::Tuple)
+function matrixCLD(lVector::Vector, rVector::Vector, cumulcld::Tuple)
+  sizeR = length(rVector)
+  sizeL = length(lVector)
   K = zeros(sizeL, sizeR)
   for i in 1:sizeL
     for j in 1:sizeR
-      newcumul = (cumulcld[1] * rList[j], cumulcld[2])
-      K[i, j] = probaCLD(lList[i], newcumul)
+      newcumul = (cumulcld[1] * rVector[j], cumulcld[2])
+      K[i, j] = probaCLD(lVector[i], newcumul)
     end
   end
   K

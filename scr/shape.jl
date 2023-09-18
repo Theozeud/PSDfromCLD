@@ -40,6 +40,8 @@ RectanguarCuboid(a, b, c) = ConvexPolyhedron([(a / 2, b / 2, c / 2), (-a / 2, -b
 
 Cube(c) = RectanguarCuboid(c, c, c)
 
+
+
 function Tetraedron(c)
     #c is sidelength
     #coord of the points 

@@ -7,13 +7,14 @@ include("utils.jl")
 
 # Utils for ConvexHull
 
-function angle_init(pt0, pt1) #Angle initialisation
+# Intitialization angle
+function angle_init(pt0::Tuple, pt1::Tuple)
     (x, y) = pt0
     (a, b) = pt1
     atan(abs(a - x) / abs(b - y))
 end
 
-function _angle(pt0, pt1, pt2) #Angle après initialisation
+function _angle(pt0::Tuple, pt1::Tuple, pt2::Tuple) #Angle après initialisation
     AB = euclidean(pt0, pt1)
     BC = euclidean(pt1, pt2)
     AC = euclidean(pt0, pt2)
