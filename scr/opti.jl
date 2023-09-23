@@ -12,7 +12,7 @@ end
 
 defaultInit(ψ::Vector) = zero(ψ)
 
-function optimizePSD(K::Matrix, q::Vector, ε::Real, ψₘ::Real=0, method=Nel(), ψ₀=defaultInit(length(q)), loss=loss)
+function optimizePSD(K::Matrix, q::Vector, ε::Real, ψₘ::Real=0, ψ₀=defaultInit(length(q)), loss=lossCLD)
     Optim.optimize(ψ -> lossCLD(K, ψ, q, ε, ψₘ), ψ₀; iterations=100000)
 end
 
@@ -25,9 +25,9 @@ function plotOptiRes(rVector::Vector, ψₙᵤₘ::Vector, ψₜᵣᵤₑ::Vecto
 end
 
 function plotOptiRes(rList::Vector, Ψₙᵤₘ::Vector, Ψₜᵣᵤₑ::Vector, Ψ₀::Vector)
-    plot(rList, Ψₙᵤₘ, label="Numerical Resolution", linewidth=8, dpi=300, legendfontsize=10, titlefontsize=22, guidefontsize=16)#, legend=false)# legend=:outerbottomright)
-    plot!(rList, Ψₜᵣᵤₑ, label="Exact", linewidth=8, dpi=300)
-    plot!(rList, Ψ₀, label="Initial Distribution", linewidth=8, dpi=300)
+    plot(rList, Ψₙᵤₘ, label="Numerical Resolution", linewidth=2, dpi=300, legendfontsize=10, titlefontsize=22, guidefontsize=16)#, legend=false)# legend=:outerbottomright)
+    plot!(rList, Ψₜᵣᵤₑ, label="Exact", linewidth=2, dpi=300)
+    #plot!(rList, Ψ₀, label="Initial Distribution", linewidth=8, dpi=300)
     xlabel!("Particle Size")
     ylabel!("Probability density")
     title!("Particle Size Distribution")
